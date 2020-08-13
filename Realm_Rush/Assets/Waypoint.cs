@@ -17,12 +17,20 @@ public class Waypoint : MonoBehaviour
     }
 
 
-    public Vector2 GetPosition()
+    public Vector2Int GetPosition()
     {
         return new Vector2Int(
                     Mathf.RoundToInt(transform.position.x / gridSize),
                     Mathf.RoundToInt(transform.position.z / gridSize)
             );
+    }
+
+    public void SetTopColor(Color color)
+    {
+        //Find Child Object thru transform.Find(name)
+        MeshRenderer TopMesh = transform.Find("Quad (2)").GetComponent<MeshRenderer>();
+        TopMesh.material.color = color;
+
     }
 
     // Update is called once per frame

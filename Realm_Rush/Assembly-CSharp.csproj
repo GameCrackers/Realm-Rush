@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\CubeEditor.cs" />
     <Compile Include="Assets\EnemyMovement.cs" />
+    <Compile Include="Assets\Pathfinder.cs" />
     <Compile Include="Assets\Waypoint.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/GitProjects/Realm_Rush/Realm_Rush/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
