@@ -9,6 +9,7 @@ public class Pathfinder : MonoBehaviour
     Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
     Queue<Waypoint> queue = new Queue<Waypoint>();
     bool isRunning = true;
+    public List<Waypoint> pathList = new List<Waypoint>();
 
     [SerializeField] Waypoint startPoint, endPoint;
     Vector2Int[] directions = { 
@@ -27,17 +28,47 @@ public class Pathfinder : MonoBehaviour
 
         ColorStartEndBlock();
 
+        BreadthFirstSearch();
 
-        Pathfind();
+        PopulatePath();
+
+
+        ColorPath();
     }
 
-    private void Pathfind()
+    private void PopulatePath()
+    {
+        pathList.Add(endPoint);
+
+        Waypoint previousNode = endPoint.exploredFrom;
+        while (previousNode != startPoint)
+        {
+            pathList.Add(previousNode);
+            previousNode = previousNode.exploredFrom;
+        }
+
+        pathList.Add(startPoint);
+
+        pathList.Reverse();
+
+    }
+
+    private void ColorPath()
+    {
+        foreach (Waypoint pathNode in pathList)
+        {
+            pathNode.SetTopColor(Color.red);
+        }
+    }
+
+    private void BreadthFirstSearch()
     {
         queue.Enqueue(startPoint);
 
         while(queue.Count >= 0 && isRunning == true)
         {
             var searchCenter = queue.Dequeue();
+
 
             StopWhenEndPointFound(searchCenter);
 
@@ -70,7 +101,7 @@ public class Pathfinder : MonoBehaviour
 
                 Vector2Int explorationCoord = searchCenter.GetPosition() + dir;
 
-                QueueNewNeighbor(queue, explorationCoord);
+                QueueNewNeighbor(queue, explorationCoord, searchCenter);
             }
 
         }
@@ -88,17 +119,21 @@ public class Pathfinder : MonoBehaviour
           }*/
     }
 
-    private void QueueNewNeighbor(Queue<Waypoint> queue, Vector2Int explorationCoord)
+    private void QueueNewNeighbor(Queue<Waypoint> queue, Vector2Int explorationCoord, Waypoint searchCenter)
     {
         if (grid.ContainsKey(explorationCoord))
         {
             Waypoint neighbor = grid[explorationCoord];
 
-            if (!neighbor.isExplored)
+            if (!neighbor.isExplored && !queue.Contains(neighbor))
             {
                 neighbor.SetTopColor(Color.blue);
 
+                neighbor.exploredFrom = searchCenter; //store origin node in explored node
+                print("Stored search center " + searchCenter);
+
                 queue.Enqueue(neighbor);
+
 
                 print("Queueing " + neighbor);
 

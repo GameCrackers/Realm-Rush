@@ -5,8 +5,11 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour
 {
     public bool isExplored = false; //to avoid duplicated exploration in BFS search
+
+    [SerializeField] public Waypoint exploredFrom; // to store the path that leads to endpoint
+
     const int gridSize = 10;
-    Vector2Int gridPos;
+    //Vector2Int gridPos;
     // Start is called before the first frame update
     void Start()
     {
