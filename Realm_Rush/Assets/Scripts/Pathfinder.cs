@@ -9,7 +9,23 @@ public class Pathfinder : MonoBehaviour
     Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
     Queue<Waypoint> queue = new Queue<Waypoint>();
     bool isRunning = true;
-    public List<Waypoint> pathList = new List<Waypoint>();
+    List<Waypoint> pathList = new List<Waypoint>();
+
+    public List<Waypoint> GetPath()
+    {
+        LoadBlocks();
+
+        ColorStartEndBlock();
+
+        BreadthFirstSearch();
+
+        PopulatePath();
+
+
+       // ColorPath();
+        return pathList;
+    }
+
 
     [SerializeField] Waypoint startPoint, endPoint;
     Vector2Int[] directions = { 
@@ -21,21 +37,6 @@ public class Pathfinder : MonoBehaviour
     };
 
   
-    // Start is called before the first frame update
-    void Start()
-    {
-        LoadBlocks();
-
-        ColorStartEndBlock();
-
-        BreadthFirstSearch();
-
-        PopulatePath();
-
-
-        ColorPath();
-    }
-
     private void PopulatePath()
     {
         pathList.Add(endPoint);
@@ -109,14 +110,6 @@ public class Pathfinder : MonoBehaviour
         {
             return;
         }
-        /*  try
-          {
-              grid[explorationCoord].SetTopColor(Color.blue);
-          }
-          catch
-          {
-
-          }*/
     }
 
     private void QueueNewNeighbor(Queue<Waypoint> queue, Vector2Int explorationCoord, Waypoint searchCenter)
@@ -127,7 +120,7 @@ public class Pathfinder : MonoBehaviour
 
             if (!neighbor.isExplored && !queue.Contains(neighbor))
             {
-                neighbor.SetTopColor(Color.blue);
+                //neighbor.SetTopColor(Color.blue);
 
                 neighbor.exploredFrom = searchCenter; //store origin node in explored node
                 print("Stored search center " + searchCenter);
