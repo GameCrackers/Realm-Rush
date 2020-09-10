@@ -6,14 +6,19 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     [SerializeField] Transform towerTop;
-    [SerializeField] Transform enemyObject;
     [SerializeField] float attackRange = 10f;
     [SerializeField] ParticleSystem bullets;
     // Start is called before the first frame update
     // Update is called once per frame
+    
+    
+    Transform enemyObject;
+    
     void Update()
     {
-       bool startFire = GameObject.Find("Enemy") != null;
+        SetTargetEnemy();
+
+        bool startFire = GameObject.Find("Enemy") != null;
         if (enemyObject)
         {
             FireAtEnemy(startFire);
@@ -24,6 +29,26 @@ public class Tower : MonoBehaviour
         }
 
 
+    }
+
+    private void SetTargetEnemy()
+    {
+        var sceneEnemies = FindObjectsOfType<EnemyMovement>();
+
+        if(sceneEnemies.Length == 0) { return; }
+
+        Transform closestTransform = sceneEnemies[0].transform;
+        foreach (EnemyMovement sceneEnemy in sceneEnemies)
+        {
+            if (Vector3.Distance(closestTransform.position, gameObject.transform.position) >= 
+                Vector3.Distance(sceneEnemy.transform.position, gameObject.transform.position))
+            {
+                closestTransform = sceneEnemy.transform;
+            }
+
+        }
+
+        enemyObject = closestTransform;
     }
 
     private void ShootBullets(bool startFirin)

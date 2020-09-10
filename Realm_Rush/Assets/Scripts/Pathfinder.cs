@@ -13,16 +13,20 @@ public class Pathfinder : MonoBehaviour
 
     public List<Waypoint> GetPath()
     {
-        LoadBlocks();
 
-        ColorStartEndBlock();
+        if(pathList.Count == 0) //check if path is already exist, when 2nd enemy is instantiated
+        {
+            LoadBlocks();
 
-        BreadthFirstSearch();
+            ColorStartEndBlock();
 
-        PopulatePath();
+            BreadthFirstSearch();
 
+            PopulatePath();
 
-       // ColorPath();
+        }
+
+        // ColorPath();
         return pathList;
     }
 
