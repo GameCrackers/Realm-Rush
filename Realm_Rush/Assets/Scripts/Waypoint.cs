@@ -7,6 +7,7 @@ public class Waypoint : MonoBehaviour
     public bool isExplored = false; //to avoid duplicated exploration in BFS search
 
     [SerializeField] public Waypoint exploredFrom; // to store the path that leads to endpoint
+    [SerializeField] public bool isPlaceable = true;
 
     const int gridSize = 10;
     //Vector2Int gridPos;
@@ -29,6 +30,8 @@ public class Waypoint : MonoBehaviour
             );
     }
 
+
+   
     public void SetTopColor(Color color)
     {
         //Find Child Object thru transform.Find(name)

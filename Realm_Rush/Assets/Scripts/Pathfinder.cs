@@ -11,6 +11,17 @@ public class Pathfinder : MonoBehaviour
     bool isRunning = true;
     List<Waypoint> pathList = new List<Waypoint>();
 
+
+    [SerializeField] Waypoint startPoint, endPoint;
+    Vector2Int[] directions = {
+        Vector2Int.up,
+        Vector2Int.right,
+        Vector2Int.down,
+        Vector2Int.left
+
+    };
+
+
     public List<Waypoint> GetPath()
     {
 
@@ -24,22 +35,23 @@ public class Pathfinder : MonoBehaviour
 
             PopulatePath();
 
+            SetPathUnplaceable();
+
         }
 
         // ColorPath();
         return pathList;
     }
 
+    private void SetPathUnplaceable()
+    {
+        foreach (Waypoint pathBlock in pathList)
+        {
+            pathBlock.isPlaceable = false;
+        }
+    }
 
-    [SerializeField] Waypoint startPoint, endPoint;
-    Vector2Int[] directions = { 
-        Vector2Int.up,
-        Vector2Int.right,
-        Vector2Int.down,
-        Vector2Int.left
-  
-    };
-
+    
   
     private void PopulatePath()
     {
