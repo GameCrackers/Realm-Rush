@@ -7,6 +7,8 @@ public class EnemyDamage : MonoBehaviour
 {
     //[SerializeField] Collider collisionMesh;
     [SerializeField] int hitPoints = 10;
+    [SerializeField] ParticleSystem hitParticlePrefab;
+    [SerializeField] ParticleSystem EnemyDeathParticlePrefab;
 
     private void OnParticleCollision(GameObject gameObject)
     {
@@ -22,11 +24,14 @@ public class EnemyDamage : MonoBehaviour
 
     private void KillEnemy()
     {
+        var vfx = Instantiate(EnemyDeathParticlePrefab, transform.position, Quaternion.identity);
+        vfx.Play();
         Destroy(gameObject);
     }
 
     private void ProcessHit()
     {
+        hitParticlePrefab.Play();
         hitPoints -= 1;
     }
 }

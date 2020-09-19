@@ -8,12 +8,27 @@ public class Tower : MonoBehaviour
     [SerializeField] Transform towerTop;
     [SerializeField] float attackRange = 10f;
     [SerializeField] ParticleSystem bullets;
+
+    Waypoint baseWaypoint;
+
     // Start is called before the first frame update
     // Update is called once per frame
     
     
     Transform enemyObject;
     
+
+    public Waypoint GetBaseWaypoint()
+    {
+        return baseWaypoint;
+    }
+
+    public void SetBaseWaypoint(Waypoint waypoint)
+    {
+        baseWaypoint = waypoint;
+    }
+
+
     void Update()
     {
         SetTargetEnemy();
